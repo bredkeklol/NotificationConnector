@@ -1,0 +1,42 @@
+version: "3.9"
+
+services:
+
+  backend:
+    build:
+      context: ./backend
+
+    ports:
+      - "8080:8080"
+
+    networks:
+      - connector-network
+
+  simulator:
+
+    build:
+      context: ./simulator
+
+    depends_on:
+      - backend
+
+    networks:
+      - connector-network
+
+  frontend:
+
+    build:
+      context: ./frontend
+
+    ports:
+      - "3000:80"
+
+    depends_on:
+      - backend
+
+    networks:
+      - connector-network
+
+networks:
+
+  connector-network:

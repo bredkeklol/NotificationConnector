@@ -1,0 +1,65 @@
+body{
+    margin:0;
+    background:#eef2f7;
+    font-family:Segoe UI,Arial,sans-serif;
+}
+
+.container{
+    width:900px;
+    margin:40px auto;
+}
+
+h1{
+    text-align:center;
+    margin-bottom:35px;
+}
+
+.card{
+
+    background:white;
+
+    border-radius:12px;
+
+    padding:20px;
+
+    margin-bottom:18px;
+
+    box-shadow:0 5px 18px rgba(0,0,0,.12);
+
+    transition:.25s;
+}
+
+.card:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 8px 24px rgba(0,0,0,.18);
+}
+
+.source{
+
+    font-weight:bold;
+
+    margin-bottom:10px;
+
+    font-size:15px;
+}
+
+.card h2{
+
+    margin:0;
+}
+
+.card p{
+
+    color:#444;
+
+    margin:15px 0;
+}
+
+.card span{
+
+    color:gray;
+
+    font-size:14px;
+}

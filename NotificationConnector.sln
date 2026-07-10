@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "backend", "backend\backend.csproj", "{943769C5-805C-4853-AB74-2C57DA78EA88}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "simulator", "simulator\simulator.csproj", "{53CE7287-3A55-4827-ACD9-47C6363BB191}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{943769C5-805C-4853-AB74-2C57DA78EA88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{943769C5-805C-4853-AB74-2C57DA78EA88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{943769C5-805C-4853-AB74-2C57DA78EA88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{943769C5-805C-4853-AB74-2C57DA78EA88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53CE7287-3A55-4827-ACD9-47C6363BB191}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53CE7287-3A55-4827-ACD9-47C6363BB191}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53CE7287-3A55-4827-ACD9-47C6363BB191}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53CE7287-3A55-4827-ACD9-47C6363BB191}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
