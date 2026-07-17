@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "simulator", "simulator\simu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "connector", "connector\connector.csproj", "{BF7C6D92-1F68-4A8B-BDC7-3C93C87C0072}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "websocketserver", "websocketserver\websocketserver.csproj", "{BAA10927-B99B-4ED1-9D19-5A35C3CC8F28}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{BF7C6D92-1F68-4A8B-BDC7-3C93C87C0072}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF7C6D92-1F68-4A8B-BDC7-3C93C87C0072}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF7C6D92-1F68-4A8B-BDC7-3C93C87C0072}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAA10927-B99B-4ED1-9D19-5A35C3CC8F28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAA10927-B99B-4ED1-9D19-5A35C3CC8F28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAA10927-B99B-4ED1-9D19-5A35C3CC8F28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAA10927-B99B-4ED1-9D19-5A35C3CC8F28}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

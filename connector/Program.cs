@@ -1,4 +1,7 @@
+
+
 using connector;
+using connector.Options;
 using connector.Adapters;
 using connector.Contracts;
 using connector.Core;
@@ -9,7 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Adapter'lar
 builder.Services.AddSingleton<ISourceAdapter, FakeAdapter>();
 builder.Services.AddSingleton<ISourceAdapter, WebhookAdapter>();
-
+builder.Services.AddSingleton<ISourceAdapter, WebSocketAdapter>();
 // Core
 builder.Services.AddSingleton<IConnector, ConnectorCore>();
 
@@ -19,10 +22,15 @@ builder.Services.AddHttpClient<IBackendSender, BackendSenderService>(client =>
     client.BaseAddress = new Uri("http://localhost:5033");
 });
 
+builder.Services.Configure<ConnectorWebSocketOptions>(
+    builder.Configuration.GetSection("WebSocket"));
+
 // Worker
 builder.Services.AddHostedService<Worker>();
 
 var app = builder.Build();
+
+
 
 // Şimdilik test endpointi
 app.MapGet("/", () => "Connector is running.");
