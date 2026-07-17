@@ -8,14 +8,18 @@ public class ConnectorCore : IConnector
     private readonly List<ISourceAdapter> _adapters = new();
 
     public event Func<NotificationEnvelope, Task>? OnMessage;
+    private readonly IBackendSender _backendSender;
+    public ConnectorCore(
+    IEnumerable<ISourceAdapter> adapters,
+    IBackendSender backendSender)
+{
+    _backendSender = backendSender;
 
-    public ConnectorCore(IEnumerable<ISourceAdapter> adapters)
+    foreach (var adapter in adapters)
     {
-        foreach (var adapter in adapters)
-        {
-            Register(adapter);
-        }
+        Register(adapter);
     }
+}
     
     public void Register(ISourceAdapter adapter)
     {
@@ -63,9 +67,11 @@ public class ConnectorCore : IConnector
         Timestamp = rawMessage.ReceivedAt
     };
 
-    if (OnMessage != null)
-    {
-        await OnMessage.Invoke(notification);
-    }
+    await _backendSender.SendAsync(notification, CancellationToken.None);
+
+if (OnMessage != null)
+{
+    await OnMessage.Invoke(notification);
+}
 }
 }

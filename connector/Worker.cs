@@ -8,20 +8,19 @@ public class Worker : BackgroundService
 {
     private readonly ILogger<Worker> _logger;
     private readonly IConnector _connector;
-
-    public Worker(ILogger<Worker> logger, IConnector connector)
+    private readonly IBackendSender _backendSender;
+    public Worker(
+    ILogger<Worker> logger,
+    IConnector connector,
+    IBackendSender backendSender)
 {
     _logger = logger;
     _connector = connector;
+    _backendSender = backendSender;
 
     _connector.OnMessage += async notification =>
     {
-        _logger.LogInformation(
-            "Notification received: {Source} - {Message}",
-            notification.Source,
-            notification.Message);
-
-        await Task.CompletedTask;
+        await _backendSender.SendAsync(notification, CancellationToken.None);
     };
 }
 

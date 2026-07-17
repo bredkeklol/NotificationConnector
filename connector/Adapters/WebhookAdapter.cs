@@ -21,11 +21,18 @@ public class WebhookAdapter : ISourceAdapter
         return Task.CompletedTask;
     }
 
-    public async Task ReceiveAsync(RawMessage message)
+   public async Task ReceiveAsync(WebhookRequest request)
+{
+    if (OnRawMessage == null)
+        return;
+
+    var rawMessage = new RawMessage
     {
-        if (OnRawMessage != null)
-        {
-            await OnRawMessage.Invoke(message);
-        }
-    }
+        Source = "Webhook",
+        Payload = request.Message ?? string.Empty,
+        ReceivedAt = DateTime.UtcNow
+    };
+
+    await OnRawMessage.Invoke(rawMessage);
+}
 }
