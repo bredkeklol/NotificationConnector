@@ -5,7 +5,7 @@ var configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json")
     .Build();
 
-var backendUrl = configuration["Backend:Url"]!;
+var webhookUrl = configuration["Connector:WebhookUrl"]!;
 var httpClient = new HttpClient();
 
 int counter = 1;
@@ -35,8 +35,8 @@ while (true)
     try
 {
     var response = await httpClient.PostAsJsonAsync(
-        backendUrl,
-        notification);
+    webhookUrl,
+    notification);
 
     Console.WriteLine(
         $"Sent Notification {counter} - Status: {response.StatusCode}");

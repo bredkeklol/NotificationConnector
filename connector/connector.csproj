@@ -7,4 +7,9 @@
     <UserSecretsId>dotnet-connector-9ffe64da-865d-4581-9cea-9ee56b6e9d8d</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="RabbitMQ.Client" Version="6.8.1" />
+    <PackageReference Include="StackExchange.Redis" Version="3.0.17" />
+  </ItemGroup>
+
 </Project>

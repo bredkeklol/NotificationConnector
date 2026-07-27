@@ -17,6 +17,7 @@ public class ConnectorCore : IConnector
 
     foreach (var adapter in adapters)
     {
+        Console.WriteLine($"Registering adapter: {adapter.Name}");
         Register(adapter);
     }
 }
@@ -42,12 +43,12 @@ public class ConnectorCore : IConnector
     }
 
     public async Task StartAsync(CancellationToken cancellationToken)
-    {
-        foreach (var adapter in _adapters)
-        {
-            await adapter.ConnectAsync(cancellationToken);
-        }
-    }
+{
+    var tasks = _adapters.Select(adapter =>
+        adapter.ConnectAsync(cancellationToken));
+
+    await Task.WhenAll(tasks);
+}
 
     public async Task StopAsync(CancellationToken cancellationToken)
     {

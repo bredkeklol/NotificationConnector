@@ -7,24 +7,54 @@ using connector.Contracts;
 using connector.Core;
 using connector.Services;
 using connector.Models;
-var builder = WebApplication.CreateBuilder(args);
 
+
+var builder = WebApplication.CreateBuilder(args);
+var connectorOptions = builder.Configuration
+    .GetSection("Connector")
+    .Get<ConnectorOptions>() ?? new ConnectorOptions();
 // Adapter'lar
-builder.Services.AddSingleton<ISourceAdapter, FakeAdapter>();
-builder.Services.AddSingleton<ISourceAdapter, WebhookAdapter>();
-builder.Services.AddSingleton<ISourceAdapter, WebSocketAdapter>();
+
+if (connectorOptions.EnabledAdapters.Contains("Webhook"))
+{
+    builder.Services.AddSingleton<ISourceAdapter, WebhookAdapter>();
+}
+
+if (connectorOptions.EnabledAdapters.Contains("WebSocket"))
+{
+    builder.Services.AddSingleton<ISourceAdapter, WebSocketAdapter>();
+}
+
+if (connectorOptions.EnabledAdapters.Contains("RabbitMQ"))
+{
+    builder.Services.AddSingleton<ISourceAdapter, RabbitMqAdapter>();
+}
+
+if (connectorOptions.EnabledAdapters.Contains("Redis"))
+{
+    builder.Services.AddSingleton<ISourceAdapter, RedisAdapter>();
+}
+
 // Core
 builder.Services.AddSingleton<IConnector, ConnectorCore>();
 
 // Backend Sender
-builder.Services.AddHttpClient<IBackendSender, BackendSenderService>(client =>
+builder.Services.AddHttpClient<IBackendSender, BackendSenderService>((serviceProvider, client) =>
 {
-    client.BaseAddress = new Uri("http://localhost:5033");
+    var configuration = serviceProvider.GetRequiredService<IConfiguration>();
+
+    client.BaseAddress = new Uri(
+        configuration["Backend:Url"]!);
 });
 
 builder.Services.Configure<ConnectorWebSocketOptions>(
     builder.Configuration.GetSection("WebSocket"));
-
+builder.Services.Configure<RabbitMqOptions>(
+    builder.Configuration.GetSection("RabbitMQ"));
+builder.Services.Configure<RedisOptions>(
+    builder.Configuration.GetSection("Redis"));
+builder.Services.Configure<ConnectorOptions>(
+    builder.Configuration.GetSection("Connector"));
 // Worker
 builder.Services.AddHostedService<Worker>();
 

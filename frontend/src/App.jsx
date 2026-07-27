@@ -21,22 +21,22 @@ function App() {
   }, []);
 
   const sourceColor = (source) => {
-    switch (source) {
-      case "RabbitMQ":
+    switch (source.toLowerCase()) {
+    case "rabbitmq":
         return "#27ae60";
 
-      case "Redis":
+    case "redis":
         return "#8e44ad";
 
-      case "WebSocket":
+    case "websocket":
         return "#3498db";
 
-      case "Webhook":
+    case "webhook":
         return "#e67e22";
 
-      default:
+    default:
         return "#7f8c8d";
-    }
+}
   };
 
   return (

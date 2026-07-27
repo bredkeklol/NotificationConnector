@@ -9,11 +9,75 @@ services:
     ports:
       - "8080:8080"
 
+    environment:
+      ASPNETCORE_URLS: http://+:8080
+
+    networks:
+      - connector-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    restart: unless-stopped
+
+    ports:
+      - "6379:6379"
+
+    networks:
+      - connector-network
+  
+  
+  
+  rabbitmq:
+    image: rabbitmq:3-management
+
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+    environment:
+      Backend__Url: http://backend:8080
+      WebSocket__Url: ws://websocketserver:8080/ws
+
+      RabbitMQ__HostName: rabbitmq
+      RabbitMQ__Port: 5672
+      RabbitMQ__UserName: guest
+      RabbitMQ__Password: guest
+
+    networks:
+      - connector-network
+  
+  connector:
+    build:
+      context: .
+      dockerfile: connector/Dockerfile
+
+    depends_on:
+      - backend
+      - websocketserver
+      - rabbitmq
+    environment:
+      Backend__Url: http://backend:8080
+      WebSocket__Url: ws://websocketserver:8080/ws
+
+    networks:
+      - connector-network
+
+  websocketserver:
+    build:
+      context: .
+      dockerfile: websocketserver/Dockerfile
+
+    ports:
+      - "5050:8080"
+
+    environment:
+      ASPNETCORE_URLS: http://+:8080
+
     networks:
       - connector-network
 
   simulator:
-
     build:
       context: ./simulator
 
@@ -24,7 +88,6 @@ services:
       - connector-network
 
   frontend:
-
     build:
       context: ./frontend
 
@@ -38,5 +101,4 @@ services:
       - connector-network
 
 networks:
-
   connector-network:

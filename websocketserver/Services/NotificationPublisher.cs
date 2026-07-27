@@ -16,7 +16,7 @@ public class NotificationPublisher
        Console.WriteLine($"Publishing notification at {DateTime.Now:HH:mm:ss}");
        var notification = new NotificationMessage
         {
-            Source = "websocket",
+            Source = "WebSocket",
             Title = "WebSocket Test",
             Message = $"Test message - {DateTime.Now:HH:mm:ss}"
         };
