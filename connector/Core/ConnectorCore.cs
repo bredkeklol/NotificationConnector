@@ -22,15 +22,26 @@ public class ConnectorCore : IConnector
     }
 }
     
-    public void Register(ISourceAdapter adapter)
+   public void Register(ISourceAdapter adapter)
+{
+    if (_adapters.Any(a => a.Name == adapter.Name))
+        return;
+
+    adapter.OnRawMessage += async raw =>
     {
-        if (_adapters.Any(a => a.Name == adapter.Name))
-            return;
+        try
+        {
+            await HandleRawMessageAsync(raw);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(
+                $"Failed to process message from adapter {adapter.Name}: {ex.Message}");
+        }
+    };
 
-        adapter.OnRawMessage += HandleRawMessageAsync;
-        _adapters.Add(adapter);
-    }
-
+    _adapters.Add(adapter);
+}
     public void Unregister(string adapterName)
     {
         var adapter = _adapters.FirstOrDefault(a => a.Name == adapterName);

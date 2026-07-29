@@ -39,12 +39,24 @@ if (connectorOptions.EnabledAdapters.Contains("Redis"))
 builder.Services.AddSingleton<IConnector, ConnectorCore>();
 
 // Backend Sender
-builder.Services.AddHttpClient<IBackendSender, BackendSenderService>((serviceProvider, client) =>
+builder.Services.AddHttpClient<BackendSenderService>((serviceProvider, client) =>
+
 {
+
     var configuration = serviceProvider.GetRequiredService<IConfiguration>();
 
-    client.BaseAddress = new Uri(
-        configuration["Backend:Url"]!);
+    client.BaseAddress = new Uri(configuration["Backend:Url"]!);
+
+});
+
+builder.Services.AddHttpClient<IBackendSender, BackendSenderService>((serviceProvider, client) =>
+
+{
+
+    var configuration = serviceProvider.GetRequiredService<IConfiguration>();
+
+    client.BaseAddress = new Uri(configuration["Backend:Url"]!);
+
 });
 
 builder.Services.Configure<ConnectorWebSocketOptions>(
@@ -70,7 +82,7 @@ app.MapPost("/webhook",
         var webhookAdapter = adapters.OfType<WebhookAdapter>().FirstOrDefault();
 
         if (webhookAdapter is null)
-            return Results.NotFound("WebhookAdapter not found.");
+            return Results.Ok(); // 404 yerine sessizce geç
 
         await webhookAdapter.ReceiveAsync(request);
 

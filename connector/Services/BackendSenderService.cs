@@ -6,44 +6,45 @@ using Microsoft.Extensions.Logging;
 namespace connector.Services;
 
 public class BackendSenderService : IBackendSender
-{   private readonly HttpClient _httpClient;
+{
+    private readonly HttpClient _httpClient;
     private readonly ILogger<BackendSenderService> _logger;
 
     public BackendSenderService(
-    HttpClient httpClient,
-    ILogger<BackendSenderService> logger)
-{
-    _httpClient = httpClient;
-    _logger = logger;
-}
+        HttpClient httpClient,
+        ILogger<BackendSenderService> logger)
+    {
+        _httpClient = httpClient;
+        _logger = logger;
+    }
 
     public async Task SendAsync(
-    NotificationEnvelope notification,
-    CancellationToken cancellationToken)
-{
-    try
+        NotificationEnvelope notification,
+        CancellationToken cancellationToken)
     {
-        var response = await _httpClient.PostAsJsonAsync(
-            "/api/notifications",
-            notification,
-            cancellationToken);
+        try
+        {
+            var response = await _httpClient.PostAsJsonAsync(
+                "/api/notifications",
+                notification,
+                cancellationToken);
 
-        if (response.IsSuccessStatusCode)
-        {
-            _logger.LogInformation(
-                "Notification successfully sent to backend.");
+            if (response.IsSuccessStatusCode)
+            {
+                _logger.LogInformation(
+                    "Notification successfully sent to backend.");
+            }
+            else
+            {
+                _logger.LogError(
+                    "Backend returned {StatusCode}",
+                    response.StatusCode);
+            }
         }
-        else
+        catch (Exception ex)
         {
-            _logger.LogError(
-                "Backend returned {StatusCode}",
-                response.StatusCode);
+            _logger.LogError(ex,
+                "Failed to send notification to backend.");
         }
     }
-    catch (Exception ex)
-    {
-        _logger.LogError(ex,
-            "Failed to send notification to backend.");
-    }
-}
 }
