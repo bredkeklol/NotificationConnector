@@ -46,6 +46,25 @@ docker compose up -d --build
 docker exec -it redis redis-cli PUBLISH notifications "hello redis"
 ```
 
+## Test RabbitMQ
+
+RabbitMQ kuyruğuna test mesajı gönder:
+
+```bash
+docker compose exec rabbitmq rabbitmqadmin publish exchange=amq.default routing_key=notifications payload="hello rabbitmq"
+```
+
+Mesajın işlendiğini doğrulamak için connector loglarını izle:
+
+```bash
+docker compose logs -f connector
+```
+
+Frontend üzerinde yeni bildirimi kontrol et:
+
+- http://localhost:3000
+
+
 ## Test Webhook
 
 ```bash
